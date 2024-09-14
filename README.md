@@ -135,6 +135,8 @@ Custom wordlists can be generated to allow password cracking through brute forci
   * **Using eyewitness to find more information about pages**
      ![image](./images/eyewitness.png)
      ![image](./images/eyewitness1.png)
+    **findings**
+    ![image](./images/eyewitness3.png)
   * **Gnenerating payloads for hosts running on servers**
     * Payload for Apache Tomcat(JAVA Based)
         ![image](./images/apache_payload.png)
