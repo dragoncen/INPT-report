@@ -7,18 +7,17 @@
 ###### Jason Abeiku Boateng Techie
 
 ###  Table of Content
-* ##### Executive Summary
-* ##### Analysis of Overall Security 
-* ##### Testing Methodologies
-* ##### Summary Of findings
+1. [Executive Summary]()
+2. [Analysis of Overall Security]() 
+3. [Testing Methodologies]()
+4. [Summary Of findings]()
     * Host Discovery
     * Subdomain Enumeration
     * Service Discovery and Port Scanning
-    * Vulnerability Associatedd With Service versions
+    * Vulnerability Associated With Service versions
     * Vulnerability Scanning and Analysis
     * Web-based Attack Surfaces
-* ##### CVSS V3.0 referrence table
-
+5. [CVSS V3.0 reference table]()
 
 ##### Executive Summary
 Virtualinfosecafrica conducted an internal network penetration test of in scope **IPs** and **domain**  provided by the companies networking department. This reports describes the penetration methodologies and snap shot of findings accociated to the scope during the testing.
