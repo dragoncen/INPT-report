@@ -54,7 +54,8 @@ Payloads were written for hosts that run on apache tomcat server(java based) as 
 * ###### Host Discovery
   From the scope provided,host discovery was performed using nmap and fifteen hosts were found to be live.
   
-   ![image](./image/hostdiscovery.png)
+  ![image](./images/hostdiscovery.png)
+  
    ```
     Nmap scan report for 10.10.10.1
     Host is up (0.0010s latency).
@@ -93,7 +94,7 @@ Payloads were written for hosts that run on apache tomcat server(java based) as 
 
 * ###### Service and Port Scanning
   With the live hosts discovered, futher scans were performed on them to find more information about their open ports and services each port is running.
-  
+
   ![image](./images/scan1.png)
    ```
        # Nmap 7.80 scan initiated Fri Sep 12 11:00:00 2024
