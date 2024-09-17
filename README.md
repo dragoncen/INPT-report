@@ -17,6 +17,7 @@
     * Vulnerability Associated With Service versions
     * Vulnerability Scanning and Analysis
     * Web-based Attack Surfaces
+    * Generating payloads
 5. [CVSS V3.0 reference table]()
 
 ##### Executive Summary
@@ -41,11 +42,49 @@ Payloads were written for hosts that run on apache tomcat server(java based) as 
 
 
 ##### Summary of Findings
+| Finding                                             | Severity |
+|-----------------------------------------------------|----------|
+| Apache HTTP Server 2.4.49 Path Traversal             | High     |
+| Microsoft Terminal Service Elevation of Privilege    | High     |
+| MySQL Denial of Service                              | Medium     |
+| RealVNC Privilege Escalation via HTTP Requests       | High     |
+| UltraVNC Hard-coded Credentials                      | Critical     |
+| Exim SMTPd Remote Code Execution                     | High     |
+
 * ###### Host Discovery
   From the scope provided,host discovery was performed using nmap and fifteen hosts were found to be live.
-  
-  **nmap 10.10.10.0/24 | grep -i "nmap scan report" >> hosts**
-  ![image](./images/live%20hosts.png)
+  ![image](./images/hostdiscovery.png)
+   ```
+    Nmap scan report for 10.10.10.1
+    Host is up (0.0010s latency).
+    Nmap scan report for 10.10.10.2
+    Host is up (0.0011s latency).
+    Nmap scan report for 10.10.10.5
+    Host is up (0.0012s latency).
+    Nmap scan report for 10.10.10.10
+    Host is up (0.0015s latency).
+    Nmap scan report for 10.10.10.11
+    Host is up (0.0014s latency).
+    Nmap scan report for 10.10.10.15
+    Host is up (0.0017s latency).
+    Nmap scan report for 10.10.10.20
+    Host is up (0.0020s latency).
+    Nmap scan report for 10.10.10.21
+    Host is up (0.0018s latency).
+    Nmap scan report for 10.10.10.30
+    Host is up (0.0019s latency).
+    Nmap scan report for 10.10.10.31
+    Host is up (0.0017s latency).
+    Nmap scan report for 10.10.10.40
+    Host is up (0.0016s latency).
+    Nmap scan report for 10.10.10.45
+    Host is up (0.0022s latency).
+    Nmap scan report for 10.10.10.50
+    Host is up (0.0015s latency).
+    Nmap scan report for 10.10.10.55
+    Host is up (0.0018s latency).
+    Nmap scan report for 10.10.10.60
+    Host is up (0.0020s latency). 
 
 * ###### Subdomain Enumeration
     Using the domain name provided,subdomain and assiciated IPs were discovered using *aiodnsbrute*.Six subdomains with their ips were found.
@@ -54,12 +93,81 @@ Payloads were written for hosts that run on apache tomcat server(java based) as 
 * ###### Service and Port Scanning
   With the live hosts discovered, futher scans were performed on them to find more information about their open ports and services each port is running.
   
-  **nmap -iL hosts -sV -T4 -oG nmap_scan_report.txt**
-  ![image](./images/service1.png)
-  ![image](./images/service2.png)
-  
+  ![image](./images/scan1.png)
+   ```
+       # Nmap 7.80 scan initiated Fri Sep 12 11:00:00 2024
+    Nmap scan report for 10.10.10.2
+    Host is up (0.0010s latency).
+    PORT STATE SERVICE VERSION
+    80/tcp open http Apache httpd 2.4.49
+    443/tcp open ssl/http Apache httpd 2.4.49
+    Nmap scan report for 10.10.10.5
+    Host is up (0.0012s latency).
+    PORT STATE SERVICE VERSION
+    3306/tcp open mysql MySQL 5.6.49 
+    Nmap scan report for 10.10.10.10
+    Host is up (0.0015s latency).
+    PORT STATE SERVICE VERSION
+    5900/tcp open vnc RealVNC 5.3.2 
+    Nmap scan report for 10.10.10.11
+    Host is up (0.0014s latency).
+    PORT STATE SERVICE VERSION
+    3389/tcp open rdp Microsoft Terminal Services
+    Nmap scan report for 10.10.10.15
+    Host is up (0.0017s latency).
+    PORT STATE SERVICE VERSION
+    25/tcp open smtp Exim smtpd 4.92
+    Nmap scan report for 10.10.10.20
+    Host is up (0.0020s latency).
+    PORT STATE SERVICE VERSION
+    23/tcp open telnet BSD telnetd
+    Nmap scan report for 10.10.10.21
+    Host is up (0.0018s latency).
+```
+    PORT STATE SERVICE VERSION
+    139/tcp open netbios-ssn Samba 3.6.25 
+    445/tcp open microsoft-ds Windows 7 - Samba file sharing
+    Nmap scan report for 10.10.10.30
+    Host is up (0.0019s latency).
+    PORT STATE SERVICE VERSION
+    80/tcp open http Apache httpd 2.4.49 
+    9020/tcp open http Apache httpd 2.4.49
+    Nmap scan report for 10.10.10.31
+    Host is up (0.0017s latency).
+    PORT STATE SERVICE VERSION
+    3389/tcp open rdp Microsoft Terminal Services 
+    Nmap scan report for 10.10.10.40
+    Host is up (0.0016s latency).
+    PORT STATE SERVICE VERSION
+    3306/tcp open mysql MySQL 5.5.62 
+    Nmap scan report for 10.10.10.45
+    Host is up (0.0022s latency).
+    PORT STATE SERVICE VERSION
+    443/tcp open ssl/http Apache httpd 2.4.49 
+    Nmap scan report for 10.10.10.50
+    Host is up (0.0015s latency).
+    PORT STATE SERVICE VERSION
+    5900/tcp open vnc UltraVNC 1.2.1.7
+    Nmap scan report for 10.10.10.55
+    Host is up (0.0018s latency).
+    PORT STATE SERVICE VERSION
+    80/tcp open http Apache httpd 2.4.49
+    8898/tcp open http Apache httpd 2.4.49
+    Nmap scan report for 10.10.10.60
+    Host is up (0.0020s latency).
+    PORT STATE SERVICE VERSION
+    3389/tcp open rdp Microsoft Terminal Services
+```
+   **Saving services to a grepable file**
+   ![image](./images/service_scans.png)
+   
   **commands for creating host specific targets**
-  ![image](./images/nmap.png)
+  ![image](./images/microsoft_hosts.png)
+  ![image](./images/http_hosts.png)
+  ![image](./images/telnet_hosts.png)
+  ![image](./images/vnc_hosts.png)
+  ![image](./images/mysql_hosts.png)
+  ![image](./images/smtp_hosts.png)
 
 
 
@@ -136,11 +244,11 @@ Custom wordlists can be generated to allow password cracking through brute forci
      ![image](./images/eyewitness1.png)
     **findings**
     ![image](./images/eyewitness3.png)
-  * **Gnenerating payloads for hosts running on servers**
-    * Payload for Apache Tomcat(JAVA Based)
+##### Gnenerating payloads for hosts running on servers
+   *  Payload for Apache Tomcat(JAVA Based)
         ![image](./images/apache_payload.png)
         ![image](./images/payloadfile.png)
-    * Payload for python server
+   * Payload for python server
         ![image](./images/pythonpayload.png)
         ![image](./images/pythonpayload_loc.png)
 
